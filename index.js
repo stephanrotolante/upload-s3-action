@@ -30,6 +30,7 @@ const DESTINATION_DIR = core.getInput('destination_dir', {
   required: false
 });
 
+console.log(AWS_KEY_ID.length, SECRET_ACCESS_KEY.length, SESSION_TOKEN.length);
 console.log({
   accessKeyId: AWS_KEY_ID,
   secretAccessKey: SECRET_ACCESS_KEY,
