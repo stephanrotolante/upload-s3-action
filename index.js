@@ -12,6 +12,10 @@ const AWS_KEY_ID = core.getInput('aws_key_id', {
 const SECRET_ACCESS_KEY = core.getInput('aws_secret_access_key', {
   required: true
 });
+
+const SESSION_TOKEN = core.getInput('aws_session_token', {
+  required: false
+});
 const BUCKET = core.getInput('aws_bucket', {
   required: true
 });
@@ -24,7 +28,8 @@ const DESTINATION_DIR = core.getInput('destination_dir', {
 
 const s3 = new S3({
   accessKeyId: AWS_KEY_ID,
-  secretAccessKey: SECRET_ACCESS_KEY
+  secretAccessKey: SECRET_ACCESS_KEY,
+  sessionToken: SESSION_TOKEN
 });
 const destinationDir = DESTINATION_DIR === '/' ? shortid() : DESTINATION_DIR;
 const paths = klawSync(SOURCE_DIR, {
@@ -47,7 +52,10 @@ function run() {
   return Promise.all(
     paths.map(p => {
       const fileStream = fs.createReadStream(p.path);
-      const bucketPath = path.join(destinationDir, path.relative(sourceDir, p.path));
+      const bucketPath = path.join(
+        destinationDir,
+        path.relative(sourceDir, p.path)
+      );
       const params = {
         Bucket: BUCKET,
         ACL: 'public-read',
