@@ -2474,6 +2474,10 @@ const SECRET_ACCESS_KEY = core.getInput('aws_secret_access_key', {
 const SESSION_TOKEN = core.getInput('aws_session_token', {
   required: false
 });
+
+const REGION = core.getInput('region', {
+  required: false
+});
 const BUCKET = core.getInput('aws_bucket', {
   required: true
 });
@@ -2487,7 +2491,8 @@ const DESTINATION_DIR = core.getInput('destination_dir', {
 const s3 = new S3({
   accessKeyId: AWS_KEY_ID,
   secretAccessKey: SECRET_ACCESS_KEY,
-  sessionToken: SESSION_TOKEN
+  sessionToken: SESSION_TOKEN,
+  region: REGION
 });
 const destinationDir = DESTINATION_DIR === '/' ? shortid() : DESTINATION_DIR;
 const paths = klawSync(SOURCE_DIR, {
