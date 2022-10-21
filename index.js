@@ -30,14 +30,6 @@ const DESTINATION_DIR = core.getInput('destination_dir', {
   required: false
 });
 
-console.log(AWS_KEY_ID.length, SECRET_ACCESS_KEY.length, SESSION_TOKEN.length);
-console.log({
-  accessKeyId: AWS_KEY_ID,
-  secretAccessKey: SECRET_ACCESS_KEY,
-  sessionToken: SESSION_TOKEN,
-  region: REGION
-});
-
 const s3 = new S3({
   accessKeyId: AWS_KEY_ID,
   secretAccessKey: SECRET_ACCESS_KEY,
@@ -50,11 +42,11 @@ const paths = klawSync(SOURCE_DIR, {
 });
 
 function upload(params) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     s3.upload(params, (err, data) => {
       if (err) {
         console.log(err);
-        return core.error(err);
+        reject(core.error(err));
       }
       core.info(`uploaded - ${data.Key}`);
       core.info(`located - ${data.Location}`);
