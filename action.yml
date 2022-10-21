@@ -5,6 +5,12 @@ branding:
   icon: 'upload-cloud'
   color: 'orange'
 inputs:
+  aws_session_token:
+    description: 'aws session token'
+    required: false
+  region:
+    description: 'aws account region'
+    required: false
   aws_key_id:
     description: 'aws key id'
     required: true
